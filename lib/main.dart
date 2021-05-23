@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:todo_appwrite/landing/landing_screen.dart';
-import 'package:todo_appwrite/utils/themes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
+
+import 'utils/routing.dart';
+import 'utils/themes.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, ScopedReader watch) {
+    final routes = watch(routeProvider);
+    return MaterialApp.router(
+      routeInformationParser: RoutemasterParser(),
+      routerDelegate: RoutemasterDelegate(routesBuilder: (_) => routes),
       title: 'Flutter Demo',
       theme: appTheme,
-      home: LandingScreen(),
     );
   }
 }

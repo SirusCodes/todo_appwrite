@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:todo_appwrite/animations/hover_lift.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -48,7 +49,9 @@ class LandingScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(50.0),
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Routemaster.of(context).push("/todos");
+                },
                 child: Text("Get Started"),
               ),
             ),
