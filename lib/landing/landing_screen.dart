@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
-import 'package:todo_appwrite/animations/hover_lift.dart';
+import 'package:todo_appwrite/animations/hover_lift_and_rise.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
@@ -61,19 +61,19 @@ class LandingScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                HoverLift(
+                HoverLiftAndRise(
                   child: Image.asset(
                     "assets/logos/github.png",
                     width: 40,
                   ),
                 ),
-                HoverLift(
+                HoverLiftAndRise(
                   child: Image.asset(
                     "assets/logos/twitter.png",
                     width: 40,
                   ),
                 ),
-                HoverLift(
+                HoverLiftAndRise(
                   child: Image.asset(
                     "assets/logos/appwrite.png",
                     width: 40,
