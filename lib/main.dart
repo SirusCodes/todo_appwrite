@@ -14,7 +14,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final routes = watch(routeProvider);
     return MaterialApp.router(
-      routeInformationParser: RoutemasterParser(),
+      routeInformationParser: const RoutemasterParser(),
       routerDelegate: RoutemasterDelegate(routesBuilder: (_) => routes),
       title: 'Flutter Demo',
       theme: appTheme,

@@ -11,15 +11,16 @@ final routeProvider = StateNotifierProvider<RouteProvider, RouteMap>((ref) {
 class RouteProvider extends StateNotifier<RouteMap> {
   RouteProvider() : super(_initialRoute());
 
-  static bool _loggedIn = true;
+  static const bool _loggedIn = true;
 
   static RouteMap _initialRoute() {
     return RouteMap(
       routes: {
-        "/": (_) => MaterialPage(child: LandingScreen()),
-        if (_loggedIn) "/todos": (_) => MaterialPage(child: TodoListScreen()),
+        "/": (_) => const MaterialPage(child: LandingScreen()),
+        if (_loggedIn)
+          "/todos": (_) => const MaterialPage(child: TodoListScreen()),
       },
-      onUnknownRoute: (_) => Redirect("/"),
+      onUnknownRoute: (_) => const Redirect("/"),
     );
   }
 }

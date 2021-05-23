@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HoverLiftAndRise extends StatefulWidget {
-  HoverLiftAndRise({Key? key, required this.child}) : super(key: key);
+  const HoverLiftAndRise({Key? key, required this.child}) : super(key: key);
   final Widget child;
 
   @override
@@ -49,7 +49,7 @@ class _HoverLiftAndRiseState extends State<HoverLiftAndRise>
 }
 
 class _HoverLiftAndRiseAnimation extends AnimatedWidget {
-  _HoverLiftAndRiseAnimation(
+  const _HoverLiftAndRiseAnimation(
       {Key? key, required this.child, required AnimationController controller})
       : super(key: key, listenable: controller);
 

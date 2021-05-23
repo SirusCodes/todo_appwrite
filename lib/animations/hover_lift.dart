@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HoverLift extends StatefulWidget {
-  HoverLift({
+  const HoverLift({
     Key? key,
     required this.child,
     this.endScale = 1.1,
@@ -40,15 +40,15 @@ class _HoverLiftState extends State<HoverLift>
       onExit: (_) => _controller.reverse(),
       child: _HoverLiftAnimation(
         controller: _controller,
-        child: widget.child,
         endScale: widget.endScale,
+        child: widget.child,
       ),
     );
   }
 }
 
 class _HoverLiftAnimation extends AnimatedWidget {
-  _HoverLiftAnimation({
+  const _HoverLiftAnimation({
     Key? key,
     required this.child,
     required AnimationController controller,

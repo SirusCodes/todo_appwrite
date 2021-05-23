@@ -28,7 +28,7 @@ class TodoListScreen extends StatelessWidget {
                     children: [
                       ConstrainedBox(
                         constraints:
-                            BoxConstraints(minWidth: 100, maxWidth: 420),
+                            const BoxConstraints(minWidth: 100, maxWidth: 420),
                         child: HoverLift(
                           child: PhysicalModel(
                             color: Colors.white,
@@ -36,24 +36,21 @@ class TodoListScreen extends StatelessWidget {
                             elevation: 8,
                             child: TextField(
                               cursorColor: Colors.black,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
                               decoration: InputDecoration(
                                 hintText: "🤔   What to do today?",
-                                hintStyle: TextStyle(
+                                hintStyle: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500,
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Colors.white,
                                   ),
                                   borderRadius: BorderRadius.circular(10),
@@ -88,7 +85,7 @@ class TodoListScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 20),
           ),
           onPressed: () {},
-          child: Text(
+          child: const Text(
             "Logout👋",
             style: TextStyle(fontSize: 15),
           ),
@@ -128,7 +125,7 @@ class __TodoWidgetState extends State<_TodoWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 100, maxWidth: 420),
+            constraints: const BoxConstraints(minWidth: 100, maxWidth: 420),
             child: Row(
               children: <Widget>[
                 HoverLift(
@@ -148,9 +145,9 @@ class __TodoWidgetState extends State<_TodoWidget> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    "${widget.index.toString() * widget.index}",
+                    widget.index.toString() * widget.index,
                     overflow: TextOverflow.visible,
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
                 HoverLift(
@@ -160,7 +157,7 @@ class __TodoWidgetState extends State<_TodoWidget> {
                     iconSize: 30,
                     hoverColor: Colors.transparent,
                     onPressed: () {},
-                    icon: Icon(Icons.delete_outline_rounded),
+                    icon: const Icon(Icons.delete_outline_rounded),
                   ),
                 )
               ],

@@ -8,13 +8,13 @@ final appTheme = ThemeData(
           : null,
     ),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-    side: BorderSide(
+    side: const BorderSide(
       width: 3,
-      color: const Color(0xFFA7F3D0),
+      color: Color(0xFFA7F3D0),
     ),
     splashRadius: 0,
   ),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     headline1: TextStyle(
       fontWeight: FontWeight.bold,
       color: Colors.black,
@@ -27,13 +27,13 @@ final appTheme = ThemeData(
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
+    side: MaterialStateProperty.all(const BorderSide()),
     backgroundColor: MaterialStateProperty.resolveWith<Color?>(
       (states) {
         if (states.contains(MaterialState.hovered)) return Colors.black;
         return Colors.white;
       },
     ),
-    side: MaterialStateProperty.all(BorderSide(color: Colors.black)),
     padding: MaterialStateProperty.all(
         const EdgeInsets.symmetric(horizontal: 100, vertical: 25)),
     foregroundColor: MaterialStateProperty.resolveWith<Color?>(
@@ -42,7 +42,7 @@ final appTheme = ThemeData(
         return Colors.black;
       },
     ),
-    textStyle: MaterialStateProperty.all<TextStyle?>(TextStyle(
+    textStyle: MaterialStateProperty.all<TextStyle?>(const TextStyle(
       fontSize: 25,
       fontWeight: FontWeight.bold,
     )),
