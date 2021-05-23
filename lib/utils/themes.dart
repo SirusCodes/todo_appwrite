@@ -42,6 +42,7 @@ final appTheme = ThemeData(
         return Colors.black;
       },
     ),
+    splashFactory: NoSplash.splashFactory,
     textStyle: MaterialStateProperty.all<TextStyle?>(const TextStyle(
       fontSize: 25,
       fontWeight: FontWeight.bold,
