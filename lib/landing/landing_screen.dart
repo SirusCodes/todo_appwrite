@@ -10,7 +10,7 @@ class LandingScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Spacer(),
+          const Spacer(),
           FittedBox(
             child: Text(
               "Introducing",
@@ -34,14 +34,14 @@ class LandingScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("A simple to-do app built with "),
+                const Text("A simple to-do app built with "),
                 Image.asset(
                   "assets/logos/appwrite.png",
                   width: 30,
                 ),
-                Text(" Appwrite and "),
-                FlutterLogo(size: 30),
-                Text(" Flutter"),
+                const Text(" Appwrite and "),
+                const FlutterLogo(size: 30),
+                const Text(" Flutter"),
               ],
             ),
           ),
@@ -50,9 +50,9 @@ class LandingScreen extends StatelessWidget {
               padding: const EdgeInsets.all(50.0),
               child: OutlinedButton(
                 onPressed: () {
-                  Routemaster.of(context).push("/todos");
+                  Routemaster.of(context).push("/login");
                 },
-                child: Text("Get Started"),
+                child: const Text("Get Started"),
               ),
             ),
           ),
