@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
+import 'authentication/authentication_provider.dart';
 import 'utils/routing.dart';
 import 'utils/themes.dart';
 
@@ -12,10 +13,12 @@ void main() {
 class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final routes = watch(routeProvider);
+    final authState = watch(authProvider);
     return MaterialApp.router(
       routeInformationParser: const RoutemasterParser(),
-      routerDelegate: RoutemasterDelegate(routesBuilder: (_) => routes),
+      routerDelegate: RoutemasterDelegate(
+        routesBuilder: (_) => buildRoutes(isLoggedIn: authState),
+      ),
       title: 'Flutter Demo',
       theme: appTheme,
     );

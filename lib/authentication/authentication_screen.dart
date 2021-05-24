@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'authentication_provider.dart';
 import 'widgets/inverted_color_button.dart';
 import 'widgets/label_text_field.dart';
 
@@ -103,12 +105,34 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             const SizedBox(height: 25),
             InvertedColorButton(
               text: isLogin ? "Login" : "Sign Up",
-              onPressed: enableButton ? () {} : null,
+              onPressed: enableButton ? () => _onButtonPressed() : null,
             )
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _onButtonPressed() async {
+    if (isLogin)
+      await _login();
+    else
+      await _signUp();
+  }
+
+  Future<void> _login() async {
+    return context.read(authProvider.notifier).login(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+  }
+
+  Future<void> _signUp() async {
+    return context.read(authProvider.notifier).signUp(
+          name: _nameController.text,
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
   }
 
   bool get isAllBoxFilled =>

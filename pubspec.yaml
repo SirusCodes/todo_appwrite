@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  appwrite: ^0.6.0
   cupertino_icons: ^1.0.2
   flutter_riverpod: ^0.14.0+3
   routemaster: ^0.8.1
