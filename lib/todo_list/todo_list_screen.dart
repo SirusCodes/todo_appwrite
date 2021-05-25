@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:todo_appwrite/animations/hover_lift.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TodoListScreen extends StatelessWidget {
   const TodoListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: CustomScrollView(
         anchor: .2,
@@ -18,7 +20,7 @@ class TodoListScreen extends StatelessWidget {
                   style: Theme.of(context) //
                       .textTheme
                       .headline2
-                      ?.copyWith(height: 2.1),
+                      ?.copyWith(height: 2.1.h),
                   textAlign: TextAlign.center,
                 ),
                 Padding(
@@ -27,8 +29,12 @@ class TodoListScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ConstrainedBox(
-                        constraints:
-                            const BoxConstraints(minWidth: 100, maxWidth: 420),
+                        constraints: width < 900
+                            ? const BoxConstraints(minWidth: 100, maxWidth: 230)
+                            : const BoxConstraints(
+                                minWidth: 100,
+                                maxWidth: 400,
+                              ),
                         child: HoverLift(
                           child: PhysicalModel(
                             color: Colors.white,
@@ -119,19 +125,26 @@ class __TodoWidgetState extends State<_TodoWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ConstrainedBox(
-            constraints: const BoxConstraints(minWidth: 100, maxWidth: 420),
+            constraints: width < 900
+                ? const BoxConstraints(minWidth: 100, maxWidth: 230)
+                : const BoxConstraints(
+                    minWidth: 100,
+                    maxWidth: 400,
+                  ),
             child: Row(
               children: <Widget>[
                 HoverLift(
                   endScale: 1.25,
                   child: Transform.scale(
-                    scale: 1.4,
+                    scale: 1.4.sp,
                     child: Checkbox(
                       value: checked,
                       onChanged: (value) {
@@ -147,14 +160,14 @@ class __TodoWidgetState extends State<_TodoWidget> {
                   child: Text(
                     widget.index.toString() * widget.index,
                     overflow: TextOverflow.visible,
-                    style: const TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 18.sp),
                   ),
                 ),
                 HoverLift(
                   endScale: 1.25,
                   child: IconButton(
                     splashColor: Colors.transparent,
-                    iconSize: 30,
+                    iconSize: 30.sp,
                     hoverColor: Colors.transparent,
                     onPressed: () {},
                     icon: const Icon(Icons.delete_outline_rounded),

@@ -9,10 +9,14 @@ RouteMap buildRoutes({required bool isLoggedIn}) {
   return RouteMap(
     routes: {
       "/": (_) => const MaterialPage(child: LandingScreen()),
-      if (isLoggedIn)
-        "/todos": (_) => const MaterialPage(child: TodoListScreen())
-      else
-        "/login": (_) => const MaterialPage(child: AuthenticationScreen())
+      "/todos": (_) {
+        if (!isLoggedIn) return const Redirect("/login");
+        return const MaterialPage(child: TodoListScreen());
+      },
+      "/login": (_) {
+        if (isLoggedIn) return const Redirect("/todos");
+        return const MaterialPage(child: AuthenticationScreen());
+      }
     },
     onUnknownRoute: (_) => const Redirect("/"),
   );

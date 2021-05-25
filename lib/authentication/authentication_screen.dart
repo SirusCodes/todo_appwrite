@@ -22,9 +22,12 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(left: 100),
+        padding: width < 900
+            ? const EdgeInsets.only(left: 50)
+            : const EdgeInsets.only(left: 100),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +67,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             ),
             const SizedBox(height: 25),
             SizedBox(
-              width: 500,
+              width: width < 550 ? width - 70 : 500,
               child: Column(
                 children: [
                   if (!isLogin)

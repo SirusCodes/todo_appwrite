@@ -23,10 +23,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  appwrite: ^0.6.0
+  appwrite: ^0.6.2
   cupertino_icons: ^1.0.2
   flutter_riverpod: ^0.14.0+3
-  routemaster: ^0.8.1
+  flutter_screenutil: ^5.0.0+2
+  routemaster: ^0.9.0-dev2
 
 dev_dependencies:
   flutter_test:
