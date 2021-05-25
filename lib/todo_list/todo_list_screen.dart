@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:todo_appwrite/animations/hover_lift.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class TodoListScreen extends StatelessWidget {
+import '../animations/hover_lift.dart';
+import 'todo_list_provider.dart';
+import 'todo_model.dart';
+
+class TodoListScreen extends ConsumerWidget {
   const TodoListScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+  Widget build(BuildContext context, ScopedReader watch) {
+    final _todoProvider = watch(todoProvider);
     return Scaffold(
       body: CustomScrollView(
         anchor: .2,
@@ -23,65 +27,30 @@ class TodoListScreen extends StatelessWidget {
                       ?.copyWith(height: 2.1.h),
                   textAlign: TextAlign.center,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ConstrainedBox(
-                        constraints: width < 900
-                            ? const BoxConstraints(minWidth: 100, maxWidth: 230)
-                            : const BoxConstraints(
-                                minWidth: 100,
-                                maxWidth: 400,
-                              ),
-                        child: HoverLift(
-                          child: PhysicalModel(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            elevation: 8,
-                            child: TextField(
-                              cursorColor: Colors.black,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              decoration: InputDecoration(
-                                hintText: "🤔   What to do today?",
-                                hintStyle: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.white,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                const _TextBoxWidget(),
               ],
             ),
           ),
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-            (_, index) {
-              return _TodoWidget(
-                index: index,
-                checked: index.isEven,
-              );
-            },
-            childCount: 50,
-          ))
+          _todoProvider.when(
+            data: (todos) => SliverList(
+                delegate: SliverChildBuilderDelegate(
+              (_, index) {
+                return ProviderScope(
+                  overrides: [
+                    scopedTodo.overrideWithValue(todos[index]),
+                  ],
+                  child: const _TodoWidget(),
+                );
+              },
+              childCount: todos.length,
+            )),
+            loading: () => const SliverToBoxAdapter(
+              child: CircularProgressIndicator(),
+            ),
+            error: (err, st) => const SliverToBoxAdapter(
+              child: Text("Something went wrong"),
+            ),
+          ),
         ],
       ),
       floatingActionButton: Padding(
@@ -101,31 +70,82 @@ class TodoListScreen extends StatelessWidget {
   }
 }
 
-class _TodoWidget extends StatefulWidget {
-  const _TodoWidget({
-    Key? key,
-    required this.index,
-    required this.checked,
-  }) : super(key: key);
-  final int index;
-  final bool checked;
+class _TextBoxWidget extends StatefulWidget {
+  const _TextBoxWidget({Key? key}) : super(key: key);
 
   @override
-  __TodoWidgetState createState() => __TodoWidgetState();
+  __TextBoxWidgetState createState() => __TextBoxWidgetState();
 }
 
-class __TodoWidgetState extends State<_TodoWidget> {
-  late bool checked;
-
-  @override
-  void initState() {
-    super.initState();
-    checked = widget.checked;
-  }
+class __TextBoxWidgetState extends State<_TextBoxWidget> {
+  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ConstrainedBox(
+            constraints: width < 900
+                ? const BoxConstraints(minWidth: 100, maxWidth: 230)
+                : const BoxConstraints(
+                    minWidth: 100,
+                    maxWidth: 400,
+                  ),
+            child: HoverLift(
+              child: PhysicalModel(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                elevation: 8,
+                child: TextField(
+                  controller: _controller,
+                  cursorColor: Colors.black,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  onSubmitted: (value) {
+                    context.read(todoProvider.notifier).createTodo(TodoModel(
+                          content: _controller.text,
+                          isCompleted: false,
+                        ));
+                  },
+                  decoration: InputDecoration(
+                    hintText: "🤔   What to do today?",
+                    hintStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TodoWidget extends ConsumerWidget {
+  const _TodoWidget({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    final width = MediaQuery.of(context).size.width;
+    final todo = watch(scopedTodo);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -146,11 +166,13 @@ class __TodoWidgetState extends State<_TodoWidget> {
                   child: Transform.scale(
                     scale: 1.4.sp,
                     child: Checkbox(
-                      value: checked,
+                      value: todo.isCompleted,
                       onChanged: (value) {
-                        setState(() {
-                          checked = value!;
-                        });
+                        context.read(todoProvider.notifier).updateTodo(
+                              todo.copyWith(
+                                isCompleted: !todo.isCompleted,
+                              ),
+                            );
                       },
                     ),
                   ),
@@ -158,7 +180,7 @@ class __TodoWidgetState extends State<_TodoWidget> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    widget.index.toString() * widget.index,
+                    todo.content,
                     overflow: TextOverflow.visible,
                     style: TextStyle(fontSize: 18.sp),
                   ),
@@ -169,7 +191,9 @@ class __TodoWidgetState extends State<_TodoWidget> {
                     splashColor: Colors.transparent,
                     iconSize: 30.sp,
                     hoverColor: Colors.transparent,
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read(todoProvider.notifier).deleteTodo(todo);
+                    },
                     icon: const Icon(Icons.delete_outline_rounded),
                   ),
                 )

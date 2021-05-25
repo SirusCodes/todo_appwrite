@@ -3,18 +3,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../shared/appwrite_provider.dart';
-import 'models/user_model.dart';
 
 final authServiceProvider = Provider<_AuthService>((ref) {
   return _AuthService(ref.read(appWriteProvider));
 });
 
-final authProvider = StateNotifierProvider<AuthProvider, bool>((ref) {
+final authProvider = StateNotifierProvider<AuthProvider, String?>((ref) {
   return AuthProvider(ref.read);
 });
 
-class AuthProvider extends StateNotifier<bool> {
-  AuthProvider(Reader read) : super(false) {
+class AuthProvider extends StateNotifier<String?> {
+  AuthProvider(Reader read) : super(null) {
     _authService = read(authServiceProvider);
     _init();
   }
@@ -31,8 +30,7 @@ class AuthProvider extends StateNotifier<bool> {
       );
     }
     if (result?.statusCode == 200) {
-      final user = UserModel.fromJson(result?.data as String);
-      state = user.status == UserStatus.active;
+      state = result!.data["\$id"] as String;
     }
   }
 
@@ -44,7 +42,7 @@ class AuthProvider extends StateNotifier<bool> {
         await _authService.createSession(email: email, password: password);
     debugPrint(result.toString());
     if (result.statusCode == 201) {
-      state = true;
+      state = result.data["\$id"] as String;
     }
   }
 
@@ -67,7 +65,7 @@ class AuthProvider extends StateNotifier<bool> {
   Future<void> logout() async {
     final result = await _authService.deleteCurrentSession();
     if (result.statusCode == 204) {
-      state = false;
+      state = null;
     }
   }
 }

@@ -8,19 +8,20 @@ import 'utils/routing.dart';
 import 'utils/themes.dart';
 
 void main() {
+  Routemaster.setPathUrlStrategy();
   runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final isLoggedIn = watch(authProvider);
+    final userId = watch(authProvider);
 
     return ScreenUtilInit(
       builder: () => MaterialApp.router(
         routeInformationParser: const RoutemasterParser(),
         routerDelegate: RoutemasterDelegate(
-          routesBuilder: (_) => buildRoutes(isLoggedIn: isLoggedIn),
+          routesBuilder: (_) => buildRoutes(isLoggedIn: userId != null),
         ),
         title: 'Flutter Demo',
         theme: appTheme(),

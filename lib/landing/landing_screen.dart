@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:routemaster/routemaster.dart';
-import 'package:todo_appwrite/animations/hover_lift_and_rise.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:routemaster/routemaster.dart';
+
+import '../animations/hover_lift_and_rise.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
