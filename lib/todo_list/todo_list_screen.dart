@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../animations/hover_lift.dart';
+import '../authentication/authentication_provider.dart';
 import 'todo_list_provider.dart';
 import 'todo_model.dart';
 
@@ -59,7 +60,9 @@ class TodoListScreen extends ConsumerWidget {
           style: OutlinedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 20),
           ),
-          onPressed: () {},
+          onPressed: () {
+            context.read(authProvider.notifier).logout();
+          },
           child: const Text(
             "Logout👋",
             style: TextStyle(fontSize: 15),
@@ -108,11 +111,15 @@ class __TextBoxWidgetState extends State<_TextBoxWidget> {
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
-                  onSubmitted: (value) {
-                    context.read(todoProvider.notifier).createTodo(TodoModel(
-                          content: _controller.text,
+                  onSubmitted: (value) async {
+                    await context
+                        .read(todoProvider.notifier)
+                        .createTodo(TodoModel(
+                          content: value,
                           isCompleted: false,
                         ));
+
+                    _controller.clear();
                   },
                   decoration: InputDecoration(
                     hintText: "🤔   What to do today?",
@@ -182,7 +189,11 @@ class _TodoWidget extends ConsumerWidget {
                   child: Text(
                     todo.content,
                     overflow: TextOverflow.visible,
-                    style: TextStyle(fontSize: 18.sp),
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      decoration:
+                          todo.isCompleted ? TextDecoration.lineThrough : null,
+                    ),
                   ),
                 ),
                 HoverLift(

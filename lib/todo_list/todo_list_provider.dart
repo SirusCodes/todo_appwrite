@@ -34,10 +34,11 @@ class TodoProvider extends StateNotifier<TodoValue> {
   }
 
   Future<void> createTodo(TodoModel model) async {
+    final oldTodos = state.data!.value;
     state = const TodoLoading();
     final data = await _service.createTodo(model);
     if (data != null)
-      state = TodoData([data, ...state.data!.value]);
+      state = TodoData([data, ...oldTodos]);
     else
       state = TodoError("Something went wrong");
   }
@@ -92,6 +93,8 @@ class _TodoService {
         read: ["user:$_userId"],
         write: ["user:$_userId"],
       );
+      print(result.statusCode);
+      print(result);
       if (result.statusCode == 201) {
         return TodoModel.fromMap(result.data as Map<String, dynamic>);
       }
