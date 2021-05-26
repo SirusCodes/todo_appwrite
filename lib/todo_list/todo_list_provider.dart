@@ -93,8 +93,6 @@ class _TodoService {
         read: ["user:$_userId"],
         write: ["user:$_userId"],
       );
-      print(result.statusCode);
-      print(result);
       if (result.statusCode == 201) {
         return TodoModel.fromMap(result.data as Map<String, dynamic>);
       }
