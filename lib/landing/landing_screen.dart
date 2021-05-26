@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../animations/hover_lift_and_rise.dart';
 
@@ -67,21 +68,36 @@ class LandingScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     HoverLiftAndRise(
-                      child: Image.asset(
-                        "assets/logos/github.png",
-                        width: 40,
+                      child: GestureDetector(
+                        onTap: () async {
+                          await launch("https://github.com/appwrite/appwrite");
+                        },
+                        child: Image.asset(
+                          "assets/logos/github.png",
+                          width: 40,
+                        ),
                       ),
                     ),
                     HoverLiftAndRise(
-                      child: Image.asset(
-                        "assets/logos/twitter.png",
-                        width: 40,
+                      child: GestureDetector(
+                        onTap: () async {
+                          await launch("https://twitter.com/appwrite_io");
+                        },
+                        child: Image.asset(
+                          "assets/logos/twitter.png",
+                          width: 40,
+                        ),
                       ),
                     ),
                     HoverLiftAndRise(
-                      child: Image.asset(
-                        "assets/logos/appwrite.png",
-                        width: 40,
+                      child: GestureDetector(
+                        onTap: () async {
+                          await launch("https://appwrite.io/");
+                        },
+                        child: Image.asset(
+                          "assets/logos/appwrite.png",
+                          width: 40,
+                        ),
                       ),
                     ),
                   ],
