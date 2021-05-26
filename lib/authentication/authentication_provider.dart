@@ -51,14 +51,19 @@ class AuthProvider extends StateNotifier<String?> {
     required String password,
     required String name,
   }) async {
-    final result = await _authService.createAccount(
-      email: email,
-      password: password,
-      name: name,
-    );
-
-    if (result.statusCode == 201) {
-      await login(email: email, password: password);
+    try {
+      final result = await _authService.createAccount(
+        email: email,
+        password: password,
+        name: name,
+      );
+      if (result.statusCode == 201) {
+        await login(email: email, password: password);
+      }
+    } on AppwriteException catch (e) {
+      debugPrint(
+        "message:${e.message}, code:${e.code}, response:${e.response}",
+      );
     }
   }
 
