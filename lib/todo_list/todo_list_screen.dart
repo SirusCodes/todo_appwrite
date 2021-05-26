@@ -46,10 +46,10 @@ class TodoListScreen extends ConsumerWidget {
               childCount: todos.length,
             )),
             loading: () => const SliverToBoxAdapter(
-              child: CircularProgressIndicator(),
+              child: Center(child: CircularProgressIndicator()),
             ),
             error: (err, st) => const SliverToBoxAdapter(
-              child: Text("Something went wrong"),
+              child: Center(child: Text("Something went wrong")),
             ),
           ),
         ],
