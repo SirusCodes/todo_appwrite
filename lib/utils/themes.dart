@@ -26,7 +26,7 @@ ThemeData appTheme() => ThemeData(
           fontWeight: FontWeight.bold,
           fontSize: 35.sp,
         ),
-        headline4: TextStyle(color: Colors.black, fontSize: 27.sp),
+        headline4: TextStyle(color: Colors.black, fontSize: 25.sp),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
@@ -38,7 +38,7 @@ ThemeData appTheme() => ThemeData(
           },
         ),
         padding: MaterialStateProperty.all(
-          EdgeInsets.symmetric(horizontal: 100.sp, vertical: 25.sp),
+          EdgeInsets.symmetric(horizontal: 70.sp, vertical: 25.sp),
         ),
         foregroundColor: MaterialStateProperty.resolveWith<Color?>(
           (states) {
